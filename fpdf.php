@@ -939,7 +939,7 @@ class FPDF
         $w = $this->w - $this->rMargin - $this->x;
         $wmax = ($w - 2 * $this->cMargin) * 1000 / $this->FontSize;
         $s = str_replace("\r", '', (string)$txt);
-        $nb = strlen($s);
+        $nb = strlen($s ?? '');
         $sep = -1;
         $i = 0;
         $j = 0;
@@ -1146,7 +1146,7 @@ class FPDF
     {
         // Output PDF to some destination
         $this->Close();
-        if (strlen($name) == 1 && strlen($dest) != 1) {
+        if (strlen($name ?? '') == 1 && strlen($dest ?? '') != 1) {
             // Fix parameter order
             $tmp = $dest;
             $dest = $name;
@@ -1340,7 +1340,7 @@ class FPDF
 
     protected function _getoffset()
     {
-        return strlen($this->buffer);
+        return strlen($this->buffer ?? '');
     }
 
     protected function _putstreamobject($data)
@@ -1351,7 +1351,7 @@ class FPDF
         } else {
             $entries = '';
         }
-        $entries .= '/Length ' . strlen($data);
+        $entries .= '/Length ' . strlen($data ?? '');
         $this->_newobj();
         $this->_put('<<' . $entries . '>>');
         $this->_putstream($data);
@@ -1468,7 +1468,7 @@ class FPDF
             if (!$compressed && isset($info['length2'])) {
                 $font = substr($font, 6, $info['length1']) . substr($font, 6 + $info['length1'] + 6, $info['length2']);
             }
-            $this->_put('<</Length ' . strlen($font));
+            $this->_put('<</Length ' . strlen($font ?? ''));
             if ($compressed) {
                 $this->_put('/Filter /FlateDecode');
             }
@@ -1929,7 +1929,7 @@ class FPDF
             if ($s === false) {
                 $this->Error('Error while reading stream');
             }
-            $n -= strlen($s);
+            $n -= strlen($s ?? '');
             $res .= $s;
         }
         if ($n > 0) {
